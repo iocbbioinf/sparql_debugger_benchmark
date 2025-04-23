@@ -6,7 +6,8 @@ public class Query {
     String endpoint;
     String query;
     Double duration;
-    Long queriId;
+    Long queryId;
+    Long rootCallId;
 
     public Query(String name, String endpoint, String query) {
         this.name = name;
@@ -46,11 +47,19 @@ public class Query {
         this.duration = duration;
     }
 
-    public Long getQueriId() {
-        return queriId;
+    public Long getQueryId() {
+        return queryId;
     }
 
-    public void setQueriId(Long queriId) {
-        this.queriId = queriId;
+    public void setQueryId(Long queryId) {
+        this.queryId = queryId;
+    }
+
+    public Long getRootCallId() {
+        return rootCallId;
+    }
+
+    public void setRootCallId(Long rootCallId) {
+        this.rootCallId = rootCallId;
     }
 }

@@ -20,12 +20,15 @@ public class RequestContext {
     public RequestContext() {
     }
 
-    public RequestContext(String method, List<String> namedGraphs, List<String> defaultGraphs, Map<String, String> headers, String acceptHeaderSelect) {
+
+    public RequestContext(String method, String acceptHeaderGraph, String acceptHeaderSelect, String acceptHeaderUpdate, List<String> namedGraphs, List<String> defaultGraphs, Map<String, String> headers) {
         this.method = method;
+        this.acceptHeaderGraph = acceptHeaderGraph;
+        this.acceptHeaderSelect = acceptHeaderSelect;
+        this.acceptHeaderUpdate = acceptHeaderUpdate;
         this.namedGraphs = namedGraphs;
         this.defaultGraphs = defaultGraphs;
         this.headers = headers;
-        this.acceptHeaderSelect = acceptHeaderSelect;
     }
 
     public String getEndpoint() {
