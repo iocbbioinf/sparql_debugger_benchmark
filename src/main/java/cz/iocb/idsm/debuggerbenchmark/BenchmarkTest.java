@@ -1,6 +1,7 @@
 package cz.iocb.idsm.debuggerbenchmark;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.iocb.idsm.debuggerbenchmark.model.EndpointCall;
 import cz.iocb.idsm.debuggerbenchmark.model.Query;
@@ -54,18 +55,13 @@ public class BenchmarkTest {
 
     public void processQueries(String filePath, Boolean debug, Boolean storeResults) {
 
-        Map<String, Query> respMap = new HashMap<>();
-
         List<Query> queries = parseQueriesFromFile(filePath);
         for (Query query : queries) {
             try {
                 long startTime = System.currentTimeMillis();
 
                 if(debug) {
-                    ResponseEntity<Tree<EndpointCall>> queryResp = executeDebugQuery(query);
-
-                    query.setQueryId(queryResp.getBody().getRoot().getData().getQueryId());
-                    query.setRootCallId(queryResp.getBody().getRoot().getData().getNodeId());
+                    executeDebugQuery(query, storeResults);
                 } else {
                     executeQuery(query, storeResults);
                 }
@@ -75,12 +71,6 @@ public class BenchmarkTest {
                 query.setDuration((endTime - startTime) / 1000.0);
 
                 storeQueryInfoToFile(query);
-
-                if(debug && storeResults) {
-                    storeDebugResults(query);
-                }
-
-                respMap.put(query.getName(), query);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -130,7 +120,7 @@ public class BenchmarkTest {
         }
     }
 
-    private ResponseEntity<Tree<EndpointCall>> executeDebugQuery(Query query) {
+    private void executeDebugQuery(Query query, Boolean storeResults) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -142,13 +132,31 @@ public class BenchmarkTest {
             formData.add("requestcontext", createRequestContext());
 
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(formData, headers);
-            return restTemplate.exchange(
+
+            RequestCallback requestCallback = request -> {
+                request.getHeaders().addAll(headers);
+                new FormHttpMessageConverter().write(formData, MediaType.APPLICATION_FORM_URLENCODED, request);
+            };
+
+            ResponseExtractor<Tree<EndpointCall>> responseExtractor = response -> {
+                if(storeResults) {
+                    Tree<EndpointCall> resultTree = new ObjectMapper().readValue(response.getBody(), new TypeReference<Tree<EndpointCall>>() {});
+                    query.setQueryId(resultTree.getRoot().getData().getQueryId());
+                    query.setRootCallId(resultTree.getRoot().getData().getNodeId());
+
+                    storeDebugResults(query);
+                }
+                return null;
+            };
+
+            restTemplate.execute(
                     debuggerUrl + "/syncquery",
                     HttpMethod.POST,
-                    requestEntity,
-                    new ParameterizedTypeReference<>() {});
+                    requestCallback,
+                    responseExtractor);
+
         } catch (Exception e) {
-            throw new RuntimeException("Query execution error.", e);
+            e.printStackTrace();
         }
     }
 
@@ -179,7 +187,7 @@ public class BenchmarkTest {
                     requestCallback,
                     responseExtractor);
         } catch (Exception e) {
-            throw new RuntimeException("Query execution error.", e);
+            e.printStackTrace();
         }
     }
 

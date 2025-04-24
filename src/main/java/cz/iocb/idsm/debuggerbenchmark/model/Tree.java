@@ -50,6 +50,8 @@ public class Tree<T> {
         private List<Node<T>> children;
         private Tree<T> tree;
 
+        public Node(){}
+
         private Node(T data, Node<T> parent, Tree<T> tree) {
             this.data = data;
             this.parent = parent;

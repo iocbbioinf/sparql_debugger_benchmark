@@ -29,6 +29,9 @@ public class EndpointCall {
 
     private String charset;
 
+    public EndpointCall() {
+    }
+
     public EndpointCall(Long queryId, Long nodeId, Tree.Node<SparqlQueryInfo> queryNode, Long parentNodeId, String endpoint, Long serviceCallId) {
         this.queryId = queryId;
         this.nodeId = nodeId;
