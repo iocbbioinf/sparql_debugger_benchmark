@@ -27,8 +27,8 @@ public class DebuggerbenchmarkApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		if (args.length < 2) {
-			System.err.println("Usage: java -jar debuggerbenchmark-0.0.1-SNAPSHOT.jar <filePath> <url>");
+		if (args.length < 3) {
+			System.err.println("Usage: java -jar debuggerbenchmark-0.0.1-SNAPSHOT.jar <queriesFilePath> <useDebugger(true/false)> <storeResults(true/false)>");
 			System.exit(1);
 		}
 
