@@ -1,0 +1,401 @@
+@prefix :        <http://example.org/mzml-owl#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct:     <http://purl.org/dc/terms/> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix edam:    <http://edamontology.org/> .
+@prefix obo:     <http://purl.obolibrary.org/obo/> .
+
+<http://example.org/mzml-owl>
+    a owl:Ontology ;
+    dct:title "mzML OWL ontology"@en ;
+    dct:description "OWL ontology for representing mzML document structure and linking mzML entities to PSI-MS controlled vocabulary terms."@en ;
+    dct:creator "OpenAI" ;
+    owl:versionInfo "0.1.0" ;
+    rdfs:comment "Starter ontology: structural model for mzML, intended to be used with PSI-MS terms."@en .
+
+#################################################################
+# Core classes
+#################################################################
+
+:MzMLDocument a owl:Class ;
+    rdfs:label "mzML document"@en ;
+    rdfs:comment "A mass spectrometry data document serialized according to the mzML standard."@en ;
+    skos:exactMatch edam:format_3244 .
+
+:CVList a owl:Class ; rdfs:label "CV list"@en .
+:ControlledVocabulary a owl:Class ; rdfs:label "controlled vocabulary"@en .
+:FileDescription a owl:Class ; rdfs:label "file description"@en .
+:SourceFile a owl:Class ; rdfs:label "source file"@en .
+:ReferenceableParamGroup a owl:Class ; rdfs:label "referenceable parameter group"@en .
+:SoftwareList a owl:Class ; rdfs:label "software list"@en .
+:Software a owl:Class ; rdfs:label "software"@en .
+:InstrumentConfigurationList a owl:Class ; rdfs:label "instrument configuration list"@en .
+:InstrumentConfiguration a owl:Class ; rdfs:label "instrument configuration"@en .
+:ComponentList a owl:Class ; rdfs:label "component list"@en .
+:SourceComponent a owl:Class ; rdfs:subClassOf :Component ; rdfs:label "source component"@en .
+:AnalyzerComponent a owl:Class ; rdfs:subClassOf :Component ; rdfs:label "analyzer component"@en .
+:DetectorComponent a owl:Class ; rdfs:subClassOf :Component ; rdfs:label "detector component"@en .
+:Component a owl:Class ; rdfs:label "instrument component"@en .
+:DataProcessingList a owl:Class ; rdfs:label "data processing list"@en .
+:DataProcessing a owl:Class ; rdfs:label "data processing"@en .
+:ProcessingMethod a owl:Class ; rdfs:label "processing method"@en .
+:Run a owl:Class ; rdfs:label "run"@en .
+:SpectrumList a owl:Class ; rdfs:label "spectrum list"@en .
+:ChromatogramList a owl:Class ; rdfs:label "chromatogram list"@en .
+:Spectrum a owl:Class ; rdfs:label "spectrum"@en .
+:Chromatogram a owl:Class ; rdfs:label "chromatogram"@en .
+:ScanList a owl:Class ; rdfs:label "scan list"@en .
+:Scan a owl:Class ; rdfs:label "scan"@en .
+:ScanWindowList a owl:Class ; rdfs:label "scan window list"@en .
+:ScanWindow a owl:Class ; rdfs:label "scan window"@en .
+:PrecursorList a owl:Class ; rdfs:label "precursor list"@en .
+:Precursor a owl:Class ; rdfs:label "precursor"@en .
+:SelectedIonList a owl:Class ; rdfs:label "selected ion list"@en .
+:SelectedIon a owl:Class ; rdfs:label "selected ion"@en .
+:Activation a owl:Class ; rdfs:label "activation"@en .
+:ProductList a owl:Class ; rdfs:label "product list"@en .
+:Product a owl:Class ; rdfs:label "product"@en .
+:BinaryDataArrayList a owl:Class ; rdfs:label "binary data array list"@en .
+:BinaryDataArray a owl:Class ; rdfs:label "binary data array"@en .
+:Param a owl:Class ; rdfs:label "parameter"@en .
+:CVParam a owl:Class ; rdfs:subClassOf :Param ; rdfs:label "CV parameter"@en .
+:UserParam a owl:Class ; rdfs:subClassOf :Param ; rdfs:label "user parameter"@en .
+
+#################################################################
+# Object properties
+#################################################################
+
+:hasFileDescription a owl:ObjectProperty ;
+    rdfs:domain :MzMLDocument ;
+    rdfs:range :FileDescription ;
+    rdfs:label "has file description"@en .
+
+:hasCVList a owl:ObjectProperty ;
+    rdfs:domain :MzMLDocument ;
+    rdfs:range :CVList ;
+    rdfs:label "has CV list"@en .
+
+:hasControlledVocabulary a owl:ObjectProperty ;
+    rdfs:domain :CVList ;
+    rdfs:range :ControlledVocabulary ;
+    rdfs:label "has controlled vocabulary"@en .
+
+:hasReferenceableParamGroup a owl:ObjectProperty ;
+    rdfs:domain :MzMLDocument ;
+    rdfs:range :ReferenceableParamGroup ;
+    rdfs:label "has referenceable param group"@en .
+
+:hasSoftwareList a owl:ObjectProperty ;
+    rdfs:domain :MzMLDocument ;
+    rdfs:range :SoftwareList ;
+    rdfs:label "has software list"@en .
+
+:hasSoftware a owl:ObjectProperty ;
+    rdfs:domain :SoftwareList ;
+    rdfs:range :Software ;
+    rdfs:label "has software"@en .
+
+:hasInstrumentConfigurationList a owl:ObjectProperty ;
+    rdfs:domain :MzMLDocument ;
+    rdfs:range :InstrumentConfigurationList ;
+    rdfs:label "has instrument configuration list"@en .
+
+:hasInstrumentConfiguration a owl:ObjectProperty ;
+    rdfs:domain :InstrumentConfigurationList ;
+    rdfs:range :InstrumentConfiguration ;
+    rdfs:label "has instrument configuration"@en .
+
+:hasComponentList a owl:ObjectProperty ;
+    rdfs:domain :InstrumentConfiguration ;
+    rdfs:range :ComponentList ;
+    rdfs:label "has component list"@en .
+
+:hasComponent a owl:ObjectProperty ;
+    rdfs:domain :ComponentList ;
+    rdfs:range :Component ;
+    rdfs:label "has component"@en .
+
+:hasDataProcessingList a owl:ObjectProperty ;
+    rdfs:domain :MzMLDocument ;
+    rdfs:range :DataProcessingList ;
+    rdfs:label "has data processing list"@en .
+
+:hasDataProcessing a owl:ObjectProperty ;
+    rdfs:domain :DataProcessingList ;
+    rdfs:range :DataProcessing ;
+    rdfs:label "has data processing"@en .
+
+:hasProcessingMethod a owl:ObjectProperty ;
+    rdfs:domain :DataProcessing ;
+    rdfs:range :ProcessingMethod ;
+    rdfs:label "has processing method"@en .
+
+:hasRun a owl:ObjectProperty ;
+    rdfs:domain :MzMLDocument ;
+    rdfs:range :Run ;
+    rdfs:label "has run"@en .
+
+:hasSpectrumList a owl:ObjectProperty ;
+    rdfs:domain :Run ;
+    rdfs:range :SpectrumList ;
+    rdfs:label "has spectrum list"@en .
+
+:hasChromatogramList a owl:ObjectProperty ;
+    rdfs:domain :Run ;
+    rdfs:range :ChromatogramList ;
+    rdfs:label "has chromatogram list"@en .
+
+:hasSpectrum a owl:ObjectProperty ;
+    rdfs:domain :SpectrumList ;
+    rdfs:range :Spectrum ;
+    rdfs:label "has spectrum"@en .
+
+:hasChromatogram a owl:ObjectProperty ;
+    rdfs:domain :ChromatogramList ;
+    rdfs:range :Chromatogram ;
+    rdfs:label "has chromatogram"@en .
+
+:hasScanList a owl:ObjectProperty ;
+    rdfs:domain :Spectrum ;
+    rdfs:range :ScanList ;
+    rdfs:label "has scan list"@en .
+
+:hasScan a owl:ObjectProperty ;
+    rdfs:domain :ScanList ;
+    rdfs:range :Scan ;
+    rdfs:label "has scan"@en .
+
+:hasScanWindowList a owl:ObjectProperty ;
+    rdfs:domain :Scan ;
+    rdfs:range :ScanWindowList ;
+    rdfs:label "has scan window list"@en .
+
+:hasScanWindow a owl:ObjectProperty ;
+    rdfs:domain :ScanWindowList ;
+    rdfs:range :ScanWindow ;
+    rdfs:label "has scan window"@en .
+
+:hasPrecursorList a owl:ObjectProperty ;
+    rdfs:domain :Spectrum ;
+    rdfs:range :PrecursorList ;
+    rdfs:label "has precursor list"@en .
+
+:hasPrecursor a owl:ObjectProperty ;
+    rdfs:domain :PrecursorList ;
+    rdfs:range :Precursor ;
+    rdfs:label "has precursor"@en .
+
+:hasSelectedIonList a owl:ObjectProperty ;
+    rdfs:domain :Precursor ;
+    rdfs:range :SelectedIonList ;
+    rdfs:label "has selected ion list"@en .
+
+:hasSelectedIon a owl:ObjectProperty ;
+    rdfs:domain :SelectedIonList ;
+    rdfs:range :SelectedIon ;
+    rdfs:label "has selected ion"@en .
+
+:hasActivation a owl:ObjectProperty ;
+    rdfs:domain :Precursor ;
+    rdfs:range :Activation ;
+    rdfs:label "has activation"@en .
+
+:hasProductList a owl:ObjectProperty ;
+    rdfs:domain :Spectrum ;
+    rdfs:range :ProductList ;
+    rdfs:label "has product list"@en .
+
+:hasProduct a owl:ObjectProperty ;
+    rdfs:domain :ProductList ;
+    rdfs:range :Product ;
+    rdfs:label "has product"@en .
+
+:hasBinaryDataArrayList a owl:ObjectProperty ;
+    rdfs:domain :Spectrum ;
+    rdfs:range :BinaryDataArrayList ;
+    rdfs:label "has binary data array list"@en .
+
+:hasBinaryDataArray a owl:ObjectProperty ;
+    rdfs:domain :BinaryDataArrayList ;
+    rdfs:range :BinaryDataArray ;
+    rdfs:label "has binary data array"@en .
+
+:hasParam a owl:ObjectProperty ;
+    rdfs:range :Param ;
+    rdfs:label "has parameter"@en .
+
+:hasCVParam a owl:ObjectProperty ;
+    rdfs:subPropertyOf :hasParam ;
+    rdfs:range :CVParam ;
+    rdfs:label "has CV parameter"@en .
+
+:hasUserParam a owl:ObjectProperty ;
+    rdfs:subPropertyOf :hasParam ;
+    rdfs:range :UserParam ;
+    rdfs:label "has user parameter"@en .
+
+:usesInstrumentConfiguration a owl:ObjectProperty ;
+    rdfs:domain :Run ;
+    rdfs:range :InstrumentConfiguration ;
+    rdfs:label "uses instrument configuration"@en .
+
+:usesDataProcessing a owl:ObjectProperty ;
+    rdfs:domain [ a owl:Class ; owl:unionOf ( :Spectrum :Chromatogram ) ] ;
+    rdfs:range :DataProcessing ;
+    rdfs:label "uses data processing"@en .
+
+:referencesParamGroup a owl:ObjectProperty ;
+    rdfs:domain :Param ;
+    rdfs:range :ReferenceableParamGroup ;
+    rdfs:label "references param group"@en .
+
+:hasSourceFile a owl:ObjectProperty ;
+    rdfs:domain :FileDescription ;
+    rdfs:range :SourceFile ;
+    rdfs:label "has source file"@en .
+
+#################################################################
+# Data properties
+#################################################################
+
+:accession a owl:DatatypeProperty ;
+    rdfs:domain :CVParam ;
+    rdfs:range xsd:string ;
+    rdfs:label "accession"@en .
+
+:name a owl:DatatypeProperty ;
+    rdfs:domain :Param ;
+    rdfs:range xsd:string ;
+    rdfs:label "name"@en .
+
+:value a owl:DatatypeProperty ;
+    rdfs:domain :Param ;
+    rdfs:range xsd:string ;
+    rdfs:label "value"@en .
+
+:unitAccession a owl:DatatypeProperty ;
+    rdfs:domain :CVParam ;
+    rdfs:range xsd:string ;
+    rdfs:label "unit accession"@en .
+
+:unitName a owl:DatatypeProperty ;
+    rdfs:domain :CVParam ;
+    rdfs:range xsd:string ;
+    rdfs:label "unit name"@en .
+
+:cvLabel a owl:DatatypeProperty ;
+    rdfs:domain :ControlledVocabulary ;
+    rdfs:range xsd:string ;
+    rdfs:label "CV label"@en .
+
+:cvFullName a owl:DatatypeProperty ;
+    rdfs:domain :ControlledVocabulary ;
+    rdfs:range xsd:string ;
+    rdfs:label "CV full name"@en .
+
+:cvVersion a owl:DatatypeProperty ;
+    rdfs:domain :ControlledVocabulary ;
+    rdfs:range xsd:string ;
+    rdfs:label "CV version"@en .
+
+:uri a owl:DatatypeProperty ;
+    rdfs:range xsd:anyURI ;
+    rdfs:label "URI"@en .
+
+:id a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "identifier"@en .
+
+:index a owl:DatatypeProperty ;
+    rdfs:range xsd:nonNegativeInteger ;
+    rdfs:label "index"@en .
+
+:defaultArrayLength a owl:DatatypeProperty ;
+    rdfs:domain :Spectrum ;
+    rdfs:range xsd:nonNegativeInteger ;
+    rdfs:label "default array length"@en .
+
+:msLevel a owl:DatatypeProperty ;
+    rdfs:domain :Spectrum ;
+    rdfs:range xsd:positiveInteger ;
+    rdfs:label "MS level"@en .
+
+:retentionTime a owl:DatatypeProperty ;
+    rdfs:domain :Scan ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "retention time"@en .
+
+:lowestObservedMz a owl:DatatypeProperty ;
+    rdfs:domain :Spectrum ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "lowest observed m/z"@en .
+
+:highestObservedMz a owl:DatatypeProperty ;
+    rdfs:domain :Spectrum ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "highest observed m/z"@en .
+
+:basePeakMz a owl:DatatypeProperty ;
+    rdfs:domain :Spectrum ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "base peak m/z"@en .
+
+:basePeakIntensity a owl:DatatypeProperty ;
+    rdfs:domain :Spectrum ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "base peak intensity"@en .
+
+:totalIonCurrent a owl:DatatypeProperty ;
+    rdfs:domain :Spectrum ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "total ion current"@en .
+
+:binaryData a owl:DatatypeProperty ;
+    rdfs:domain :BinaryDataArray ;
+    rdfs:range xsd:base64Binary ;
+    rdfs:label "binary data"@en .
+
+:externalArrayLocation a owl:DatatypeProperty ;
+    rdfs:domain :BinaryDataArray ;
+    rdfs:range xsd:anyURI ;
+    rdfs:label "external array location"@en .
+
+#################################################################
+# Restrictions (lightweight OWL profile)
+#################################################################
+
+:MzMLDocument
+    rdfs:subClassOf
+        [ a owl:Restriction ; owl:onProperty :hasRun ; owl:someValuesFrom :Run ],
+        [ a owl:Restriction ; owl:onProperty :hasFileDescription ; owl:maxCardinality "1"^^xsd:nonNegativeInteger ] .
+
+:Run
+    rdfs:subClassOf
+        [ a owl:Restriction ; owl:onProperty :hasSpectrumList ; owl:maxCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ; owl:onProperty :hasChromatogramList ; owl:maxCardinality "1"^^xsd:nonNegativeInteger ] .
+
+:Spectrum
+    rdfs:subClassOf
+        [ a owl:Restriction ; owl:onProperty :hasScanList ; owl:maxCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ; owl:onProperty :hasBinaryDataArrayList ; owl:maxCardinality "1"^^xsd:nonNegativeInteger ] .
+
+#################################################################
+# Example alignments to PSI-MS concepts
+#################################################################
+
+:MassSpectrum a owl:Class ;
+    rdfs:subClassOf :Spectrum ;
+    rdfs:label "mass spectrum"@en ;
+    rdfs:comment "A spectrum in the mzML structural model; detailed semantics should be linked to PSI-MS terms."@en .
+
+:InstrumentModelTerm a owl:Class ;
+    rdfs:label "instrument model term"@en ;
+    rdfs:comment "A placeholder class for alignment to PSI-MS instrument model terms."@en .
+
+:hasPSIMSConcept a owl:ObjectProperty ;
+    rdfs:label "has PSI-MS concept"@en ;
+    rdfs:comment "Links an mzML structural individual to a PSI-MS ontology term."@en ;
+    rdfs:range owl:Thing .
